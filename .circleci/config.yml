@@ -1,0 +1,28 @@
+version: 2.1
+jobs:
+  unit-test:
+    docker:
+    - image: circleci/golang:1.13
+    working_directory: /go/src/github.com/{{ORG_NAME}}/{{REPO_NAME}}
+    steps:
+    - checkout
+    - restore_cache:
+        keys:
+        - pkg-cache
+    - run:
+        name: Unit tests
+        command: |
+          go test ./...
+    - save_cache:
+        key: pkg-cache
+        paths:
+        - "/go/pkg"
+
+workflows:
+  version: 2
+  deploy-docker:
+    jobs:
+    - unit-test:
+        filters:
+          branches:
+            only: master
