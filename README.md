@@ -32,7 +32,7 @@ go get github.com/armakuni/circleci-context-secret-manager/cmd/ccsm
 
 #### Manual
 
-1. Download the [release](/releases) for your OS - if we don't provide one then you can compile it yourself or let us know and we will look at adding a binary for you.
+1. Download the [release](https://github.com/armakuni/circleci-context-secret-manager/releases) for your OS - if we don't provide one then you can compile it yourself or let us know and we will look at adding a binary for you.
 2. Rename the binary to `ccsm` or `ccsm.exe` on Windows.
 3. Make the binary executable.
 4. Put the binary somewhere on your `PATH`
