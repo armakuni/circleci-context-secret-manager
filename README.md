@@ -41,7 +41,7 @@ go get github.com/armakuni/circleci-context-secret-manager/cmd/ccsm
 
 1. Create some contexts in CircleCI
 2. Get the IDs of your contexts
-    1. Something like <https://ui.circleci.com/settings/organization/github/armakuni/contexts>
+    1. Browse to your orgs contexts, something like <https://ui.circleci.com/settings/organization/github/armakuni/contexts>
     2. Click on the context you want the ID for.
     3. The URL bar will include the ID after `contexts`: `https://ui.circleci.com/settings/organization/github/armakuni/contexts/3e614332-9bbd-4b02-ab30-b5d18b11ae01`
 3. Set the ID in your yaml file `context_id`
