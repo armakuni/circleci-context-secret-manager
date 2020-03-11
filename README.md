@@ -14,12 +14,20 @@ A tool for managing your CircleCI context secrets (environment variables) as ide
 
 ## Usage
 
-Using the tool should be easy, check out our [example](/example) configuration files.
+Using the tool should be easy, check out our [examples](/examples) configuration files.
 
 The CLI is self documenting, if something isn't obvious please raise an issue and we will address it.
 
 ```sh
 ccsm --help
+```
+
+### Installing
+
+#### GoLang
+
+```sh
+go get github.com/armakuni/circleci-context-secret-manager/cmd/ccsm
 ```
 
 ### Getting started

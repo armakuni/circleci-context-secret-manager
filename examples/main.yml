@@ -1,0 +1,7 @@
+extends: []
+
+context_id: not-a-real-context-id
+
+secrets:
+  USERNAME: foobar
+  PASSWORD: barfoo

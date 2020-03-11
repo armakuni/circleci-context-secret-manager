@@ -1,0 +1,9 @@
+extends:
+- main.yml
+
+context_id: not-a-real-context-id
+
+secrets:
+  PASSWORD: fwibble
+  URL: http://localhost:8080
+  TEST: true
