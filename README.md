@@ -37,6 +37,19 @@ go get github.com/armakuni/circleci-context-secret-manager/cmd/ccsm
 3. Make the binary executable.
 4. Put the binary somewhere on your `PATH`
 
+### Configuration reference
+
+All configuration files should be stored in a single folder, this defaults to `contexts` from wherever the tool is run, but can be overriden with the `--contexts` flag or the `CONTEXTS_DIR` environment variable.
+
+The configuration for each yaml file should follow:
+
+| Key           | Type                | Required                         | Default | Description                                                                                                                                                                                          |
+|---------------|---------------------|----------------------------------|---------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `context_id`  | `string`            | Yes (unless skip_deploy is true) | N/A     | The context ID your configuration is for. **Note**: The file name must also match the context name (context `main` would need a file of `main.yml`)                                                  |
+| `skip_deploy` | `bool`              | No                               | false   | If true the context file can be used by `extends` but will not update a context, useful if you want to share a set of secrets between two contexts and do not need the secrets in a specific context |
+| `extends`     | `[]string`          | No                               | N/A     | An array of context file names to extend, it will load all `secrets` from extended files in order and then override with any `secrets` defined locally                                               |
+| `secrets`     | `map[string]string` | No                               | N/A     | The secrets you wish to configure for your context, this will override anything imported via `extends`. **Note**: Leaving `secrets` blank will delete all secrets on an `apply`                      |
+
 ### Getting started
 
 1. Create some contexts in CircleCI

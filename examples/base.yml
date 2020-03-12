@@ -1,0 +1,6 @@
+extends: []
+
+skip_deploy: true
+
+secrets:
+  COMMON_SECRET: secret

@@ -1,5 +1,6 @@
 extends:
 - main.yml
+- base.yml
 
 context_id: not-a-real-context-id
 
