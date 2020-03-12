@@ -4,9 +4,9 @@ type Contexts map[string]Context
 
 type Context struct {
 	Extends    []string `yaml:"extends,omitempty"`
-	ContextID  string   `yaml:"context_id"`
+	ContextID  string   `yaml:"context_id,omitempty"`
 	Secrets    Secrets  `yaml:"secrets"`
-	SkipDeploy bool     `yaml:"skip_deploy"`
+	SkipDeploy bool     `yaml:"skip_deploy,omitempty"`
 	Name       string
 }
 
