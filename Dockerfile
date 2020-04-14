@@ -1,7 +1,7 @@
 FROM circleci/golang:1.13
 
-WORKDIR /root/
+WORKDIR /go
 
-COPY ccsm .
+COPY ccsm /go/bin/.
 
 CMD ["./ccsm"]
