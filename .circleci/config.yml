@@ -18,6 +18,27 @@ jobs:
         paths:
         - "/go/pkg"
 
+  docker-build:
+    docker:
+    - image: circleci/golang:1.13
+    working_directory: /go/src/github.com/{{ORG_NAME}}/{{REPO_NAME}}
+    steps:
+    - checkout
+    - restore_cache:
+        keys:
+        - pkg-cache
+    - setup_remote_docker:
+        # Caching not available on free plan
+        docker_layer_caching: false
+    - run: |
+        TAG=1.0.$CIRCLE_BUILD_NUM
+        env GOOS=linux GARCH=amd64 CGO_ENABLED=0 go build
+        docker build -t armakuni/ccsm:$TAG .
+        docker tag armakuni/ccsm:$TAG armakuni/ccsm:latest
+        echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+        docker push armakuni/ccsm:latest
+        docker push armakuni/ccsm:$TAG
+
 workflows:
   version: 2
   deploy-docker:
@@ -26,3 +47,6 @@ workflows:
         filters:
           branches:
             only: master
+    - docker-build:
+        requires:
+        - unit-test
