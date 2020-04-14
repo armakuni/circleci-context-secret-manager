@@ -32,7 +32,7 @@ jobs:
         docker_layer_caching: false
     - run: |
         TAG=1.0.$CIRCLE_BUILD_NUM
-        env GOOS=linux GARCH=amd64 CGO_ENABLED=0 go build
+        env GOOS=linux GARCH=amd64 CGO_ENABLED=0 go build ./cmd/ccsm
         docker build -t armakuni/ccsm:$TAG .
         docker tag armakuni/ccsm:$TAG armakuni/ccsm:latest
         echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
