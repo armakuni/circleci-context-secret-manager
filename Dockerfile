@@ -4,4 +4,4 @@ WORKDIR /go
 
 COPY ccsm /go/bin/.
 
-CMD ["./ccsm"]
+CMD ["./bin/ccsm"]
