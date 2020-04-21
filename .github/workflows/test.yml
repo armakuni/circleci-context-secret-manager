@@ -23,4 +23,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@master
       - run: |
-          docker build -t ci .
+          TAG=1.0.ci
+          env GOOS=linux GARCH=amd64 CGO_ENABLED=0 go build ./cmd/ccsm
+          docker build -t armakuni/ccsm:$TAG .
