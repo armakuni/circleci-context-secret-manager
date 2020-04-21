@@ -4,7 +4,7 @@ go 1.13
 
 require (
 	github.com/CircleCI-Public/circleci-cli v0.1.6949
-	github.com/onsi/ginkgo v1.7.0
+	github.com/onsi/ginkgo v1.12.0
 	github.com/onsi/gomega v1.9.0
 	github.com/pkg/errors v0.9.1
 	github.com/urfave/cli v1.22.4
