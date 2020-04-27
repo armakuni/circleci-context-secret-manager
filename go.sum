@@ -4,6 +4,8 @@ github.com/CircleCI-Public/circleci-cli v0.1.6949 h1:FDC061C/EMkhZOUO+BekV2q6rsJ
 github.com/CircleCI-Public/circleci-cli v0.1.6949/go.mod h1:GKuCBZukEMzMC844OTDF9BMQ0LFbc7lPI1NtC5yZ/oU=
 github.com/CircleCI-Public/circleci-cli v0.1.7114 h1:Ggn6Yx/GjNl1gkx5AoLqE8rdcVVwk7GIEU8kzapUkhM=
 github.com/CircleCI-Public/circleci-cli v0.1.7114/go.mod h1:GKuCBZukEMzMC844OTDF9BMQ0LFbc7lPI1NtC5yZ/oU=
+github.com/CircleCI-Public/circleci-cli v0.1.7179 h1:AaVqvS9XZfX4e8q2A+EqtH3KNsKJCOqTx4J6kp+0YFY=
+github.com/CircleCI-Public/circleci-cli v0.1.7179/go.mod h1:A+OP1ArIhJJiC4f/T6WB5OxP1NUiLwZq4VerqEsGlvE=
 github.com/Masterminds/semver v1.4.2 h1:WBLTQ37jOCzSLtXNdoo8bNM8876KhNqOKvrlGITgsTc=
 github.com/Masterminds/semver v1.4.2/go.mod h1:MB6lktGJrhw8PrUyiEoblNEGEQ+RzHPF078ddwwvV3Y=
 github.com/ajg/form v0.0.0-20160822230020-523a5da1a92f/go.mod h1:uL1WgH+h2mgNtvBq0339dVnzXdBETtL2LeUXaIv25UY=
@@ -347,6 +349,8 @@ github.com/spf13/jwalterweatherman v1.0.0/go.mod h1:cQK4TGJAtQXfYWX+Ddv3mKDzgVb6
 github.com/spf13/pflag v1.0.2/go.mod h1:DYY7MBk1bdzusC3SYhjObp+wFpr4gzcvqqNjLnInEg4=
 github.com/spf13/pflag v1.0.3 h1:zPAT6CGy6wXeQ7NtTnaTerfKOsV6V6F8agHXFiazDkg=
 github.com/spf13/pflag v1.0.3/go.mod h1:DYY7MBk1bdzusC3SYhjObp+wFpr4gzcvqqNjLnInEg4=
+github.com/spf13/pflag v1.0.5 h1:iy+VFUOCP1a+8yFto/drg2CJ5u0yRoB7fZw3DKv/JXA=
+github.com/spf13/pflag v1.0.5/go.mod h1:McXfInJRrz4CZXVZOBLb0bTZqETkiAhM9Iw0y3An2Bg=
 github.com/spf13/viper v1.2.1/go.mod h1:P4AexN0a+C9tGAnUFNwDMYYZv3pjFuvmeiMyKRaNVlI=
 github.com/spf13/viper v1.3.1/go.mod h1:ZiWeW+zYFKm7srdB9IoDzzZXaJaI5eL9QjNiN/DMA2s=
 github.com/stretchr/objx v0.1.1/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
