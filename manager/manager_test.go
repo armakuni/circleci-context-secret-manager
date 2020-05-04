@@ -146,3 +146,143 @@ var _ = Describe("Contexts", func() {
 		})
 	})
 })
+
+var _ = Describe("Projects", func() {
+	Describe("Process", func() {
+		Context("when nothing extends", func() {
+			var projects = manager.Projects{
+				"main.yml": manager.Project{
+					ProjectSlug: "github/org/repo1",
+					Secrets: manager.Secrets{
+						"FOO": "bar",
+						"BAZ": "fish",
+					},
+				},
+				"dev.yml": manager.Project{
+					ProjectSlug: "github/org/repo2",
+					Secrets: manager.Secrets{
+						"TEST": "test",
+					},
+				},
+			}
+
+			It("returns contexts as is", func() {
+				Ω(projects.Process()).Should(Equal(projects))
+			})
+		})
+
+		Context("when a project extends another", func() {
+			Context("and it has no overlapping secrets", func() {
+				var projects = manager.Projects{
+					"main.yml": manager.Project{
+						ProjectSlug: "github/org/repo1",
+						Secrets: manager.Secrets{
+							"FOO": "bar",
+							"BAZ": "fish",
+						},
+					},
+					"dev.yml": manager.Project{
+						ProjectSlug: "github/org/repo2",
+						Extends:     []string{"main.yml"},
+						Secrets: manager.Secrets{
+							"TEST": "test",
+						},
+					},
+					"test.yml": manager.Project{
+						ProjectSlug: "github/org/repo3",
+						Extends:     []string{"main.yml", "dev.yml"},
+						Secrets: manager.Secrets{
+							"FOOBAR": "baz",
+						},
+					},
+				}
+
+				It("proccesses the extended contexts", func() {
+					Ω(projects.Process()).Should(Equal(manager.Projects{
+						"main.yml": manager.Project{
+							ProjectSlug: "github/org/repo1",
+							Secrets: manager.Secrets{
+								"FOO": "bar",
+								"BAZ": "fish",
+							},
+						},
+						"dev.yml": manager.Project{
+							ProjectSlug: "github/org/repo2",
+							Secrets: manager.Secrets{
+								"FOO":  "bar",
+								"BAZ":  "fish",
+								"TEST": "test",
+							},
+						},
+						"test.yml": manager.Project{
+							ProjectSlug: "github/org/repo3",
+							Secrets: manager.Secrets{
+								"FOO":    "bar",
+								"BAZ":    "fish",
+								"TEST":   "test",
+								"FOOBAR": "baz",
+							},
+						},
+					}))
+				})
+			})
+
+			Context("and it has overlapping secrets", func() {
+				var projects = manager.Projects{
+					"main.yml": manager.Project{
+						ProjectSlug: "github/org/repo1",
+						Secrets: manager.Secrets{
+							"FOO": "bar",
+							"BAZ": "fish",
+						},
+					},
+					"dev.yml": manager.Project{
+						ProjectSlug: "github/org/repo2",
+						Extends:     []string{"main.yml"},
+						Secrets: manager.Secrets{
+							"TEST": "test",
+							"BAZ":  "fwibble",
+						},
+					},
+					"test.yml": manager.Project{
+						ProjectSlug: "github/org/repo3",
+						Extends:     []string{"main.yml", "dev.yml"},
+						Secrets: manager.Secrets{
+							"FOOBAR": "baz",
+							"FOO":    "jerry",
+						},
+					},
+				}
+
+				It("proccesses the extended projects, overriding secrets where appropriate", func() {
+					Ω(projects.Process()).Should(Equal(manager.Projects{
+						"main.yml": manager.Project{
+							ProjectSlug: "github/org/repo1",
+							Secrets: manager.Secrets{
+								"FOO": "bar",
+								"BAZ": "fish",
+							},
+						},
+						"dev.yml": manager.Project{
+							ProjectSlug: "github/org/repo2",
+							Secrets: manager.Secrets{
+								"FOO":  "bar",
+								"BAZ":  "fwibble",
+								"TEST": "test",
+							},
+						},
+						"test.yml": manager.Project{
+							ProjectSlug: "github/org/repo3",
+							Secrets: manager.Secrets{
+								"FOO":    "jerry",
+								"BAZ":    "fwibble",
+								"TEST":   "test",
+								"FOOBAR": "baz",
+							},
+						},
+					}))
+				})
+			})
+		})
+	})
+})

@@ -20,6 +20,14 @@ func loadYAML(c *cli.Context) (manager.Contexts, error) {
 	return loadFiles(contextsDir)
 }
 
+func loadYAMLProjects(c *cli.Context) (manager.Projects, error) {
+	projectsDir := c.String("projects")
+	if projectsDir == "" {
+		return nil, fmt.Errorf("Must set projects")
+	}
+	return loadFilesProjects(projectsDir, c.String("extensions"))
+}
+
 func listFiles(contextsDir string) ([]string, error) {
 	var files []string
 	err := filepath.Walk(contextsDir, func(path string, info os.FileInfo, err error) error {
@@ -64,4 +72,51 @@ func loadFile(file string) (manager.Context, error) {
 		return manager.Context{}, fmt.Errorf("Could not parse yaml in %s, %v", file, err)
 	}
 	return context, nil
+}
+
+func loadFilesProjects(projectsDir string, extensionsDir string) (manager.Projects, error) {
+	files, err := listFiles(projectsDir)
+	if err != nil {
+		return nil, err
+	}
+	projects := make(manager.Projects)
+	for _, file := range files {
+		fileName := filepath.Base(file)
+		project, err := loadFileProjects(file)
+		if err != nil {
+			return nil, err
+		}
+		projects[fileName] = project
+	}
+	return loadFilesExtensions(extensionsDir, projects)
+}
+
+func loadFilesExtensions(extensionsDir string, projects manager.Projects) (manager.Projects, error) {
+	files, err := listFiles(extensionsDir)
+	if err != nil {
+		return nil, err
+	}
+	for _, file := range files {
+		fileName := filepath.Base(file)
+		project, err := loadFileProjects(file)
+		if err != nil {
+			return nil, err
+		}
+		project.SkipDeploy = true
+		projects[fileName] = project
+	}
+	return projects, nil
+}
+
+func loadFileProjects(file string) (manager.Project, error) {
+	yamlFile, err := ioutil.ReadFile(file)
+	if err != nil {
+		return manager.Project{}, fmt.Errorf("Could not read yaml in %s, %v", file, err)
+	}
+	var project manager.Project
+	err = yaml.Unmarshal(yamlFile, &project)
+	if err != nil {
+		return manager.Project{}, fmt.Errorf("Could not parse yaml in %s, %v", file, err)
+	}
+	return project, nil
 }

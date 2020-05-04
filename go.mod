@@ -4,10 +4,11 @@ go 1.13
 
 require (
 	github.com/CircleCI-Public/circleci-cli v0.1.7179
+	github.com/armakuni/circleci-workflow-dashboard v0.0.0-20200504153400-1ff51b26e45a
 	github.com/onsi/ginkgo v1.12.0
 	github.com/onsi/gomega v1.9.0
 	github.com/pkg/errors v0.9.1
-	github.com/urfave/cli v1.22.4
 	github.com/urfave/cli/v2 v2.2.0
+	golang.org/x/net v0.0.0-20200501053045-e0ff5e5a1de5 // indirect
 	gopkg.in/yaml.v2 v2.2.8
 )

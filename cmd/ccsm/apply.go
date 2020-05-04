@@ -33,3 +33,30 @@ func applyCMD(c *cli.Context) error {
 	}
 	return nil
 }
+
+func applyProjectCMD(c *cli.Context) error {
+	client, err := circleCISDKClient(c)
+	if err != nil {
+		return err
+	}
+	managerProjects, err := loadYAMLProjects(c)
+	if err != nil {
+		return err
+	}
+	managerProjects = managerProjects.Process()
+	projectsEnvVars, err := getProjects(client, managerProjects)
+	if err != nil {
+		return err
+	}
+	for projectKey, managerProject := range managerProjects {
+		if managerProject.SkipDeploy == true {
+			continue
+		}
+		fmt.Printf("Reconfiguring project %s...\n", projectName(managerProject.ProjectSlug))
+		err := reconfigureProject(client, managerProject, projectsEnvVars[projectKey])
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}

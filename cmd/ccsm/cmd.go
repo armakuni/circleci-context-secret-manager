@@ -14,6 +14,20 @@ var contextFlag = &cli.StringFlag{
 	EnvVars: []string{"CONTEXTS_DIR"},
 }
 
+var projectFlag = &cli.StringFlag{
+	Name:    "projects, p",
+	Value:   "./projects",
+	Usage:   "The directory your projects secrets files are stored in",
+	EnvVars: []string{"PROJECTS_DIR"},
+}
+
+var extensionsFlag = &cli.StringFlag{
+	Name:    "extensions, e",
+	Value:   "./extensions",
+	Usage:   "The directory your extensions for secrets files are stored in",
+	EnvVars: []string{"EXTENSIONS_DIR"},
+}
+
 func main() {
 	app := &cli.App{
 		Name:  "ccsm",
@@ -47,6 +61,19 @@ func main() {
 				},
 				Action: applyCMD,
 			}, {
+				Name:  "apply-projects",
+				Usage: `Apply all changes to project secrets`,
+				UsageText: `
+  Note: This command is idempotent, your context secrets will be set to exactly what is in the config.
+    If you are unsure what changes this will make you can run 'dry-run-projects' first to print out a basic report of changes
+`,
+
+				Flags: []cli.Flag{
+					projectFlag,
+					extensionsFlag,
+				},
+				Action: applyProjectCMD,
+			}, {
 				Name:  "dry-run",
 				Usage: `Print out a dry run report`,
 				UsageText: `
@@ -72,6 +99,22 @@ func main() {
 					},
 				},
 				Action: planCMD,
+			}, {
+				Name:  "dry-run-projects",
+				Usage: `Print out a dry run report for projects`,
+				UsageText: `
+  Check if your Project Slugs match
+
+  Check what secrets will be added/ deleted
+
+  Note: Due to limitations in the CircleCI APIs with secret masking we are unable to dry run any modified secrets
+`,
+
+				Flags: []cli.Flag{
+					projectFlag,
+					extensionsFlag,
+				},
+				Action: dryRunProjectsCMD,
 			},
 		},
 	}

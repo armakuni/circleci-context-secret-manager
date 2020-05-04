@@ -10,6 +10,15 @@ type Context struct {
 	Name       string
 }
 
+type Projects map[string]Project
+
+type Project struct {
+	Extends     []string `yaml:"extends,omitempty"`
+	ProjectSlug string   `yaml:"project_slug,omitempty"`
+	Secrets     Secrets  `yaml:"secrets"`
+	SkipDeploy  bool     `yaml:"skip_deploy,omitempty"`
+}
+
 type Secrets map[string]string
 
 func (contexts Contexts) Process() Contexts {
@@ -32,4 +41,26 @@ func (contexts Contexts) Process() Contexts {
 		processedContext[contextName] = newContext
 	}
 	return processedContext
+}
+
+func (projects Projects) Process() Projects {
+	processedProjects := make(Projects)
+	for projectName, project := range projects {
+		newProject := project
+		newProject.Secrets = make(Secrets)
+		for _, extention := range project.Extends {
+			if _, ok := projects[extention]; ok {
+				extendedproject := projects[extention]
+				for key, value := range extendedproject.Secrets {
+					newProject.Secrets[key] = value
+				}
+			}
+		}
+		for key, value := range project.Secrets {
+			newProject.Secrets[key] = value
+		}
+		newProject.Extends = nil
+		processedProjects[projectName] = newProject
+	}
+	return processedProjects
 }
