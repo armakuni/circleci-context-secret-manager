@@ -9,6 +9,8 @@ github.com/armakuni/circleci-workflow-dashboard v0.0.0-20200504131653-7608c86969
 github.com/armakuni/circleci-workflow-dashboard v0.0.0-20200504131653-7608c8696900/go.mod h1:lCrFwSfSr9fXFvBtpD8JpTmBLMYTallZwSI4DamW/Rk=
 github.com/armakuni/circleci-workflow-dashboard v0.0.0-20200504153400-1ff51b26e45a h1:BkeYLqQcQ/fOxu/EdpxIelXVKoORSndtwvhKpjr+WOE=
 github.com/armakuni/circleci-workflow-dashboard v0.0.0-20200504153400-1ff51b26e45a/go.mod h1:lCrFwSfSr9fXFvBtpD8JpTmBLMYTallZwSI4DamW/Rk=
+github.com/armakuni/circleci-workflow-dashboard v0.0.0-20200506082955-decad96c20ed h1:dEnOJ1H3jp5ZcbredaXVSXfT2VDTRMWPSDKFd6/Z608=
+github.com/armakuni/circleci-workflow-dashboard v0.0.0-20200506082955-decad96c20ed/go.mod h1:lCrFwSfSr9fXFvBtpD8JpTmBLMYTallZwSI4DamW/Rk=
 github.com/armon/consul-api v0.0.0-20180202201655-eb2c6b5be1b6/go.mod h1:grANhF5doyWs3UAsr3K4I6qtAmlQcZDesFNEHPZAzj8=
 github.com/blang/semver v3.5.1+incompatible h1:cQNTCjp13qL8KC3Nbxr/y2Bqb63oX6wdnnjpJbkM4JQ=
 github.com/blang/semver v3.5.1+incompatible/go.mod h1:kRBLl5iJ+tD4TcOOxsy/0fnwebNt5EWlYSAyrTnjyyk=
@@ -421,6 +423,8 @@ golang.org/x/net v0.0.0-20200222125558-5a598a2470a0 h1:MsuvTghUPjX762sGLnGsxC3HM
 golang.org/x/net v0.0.0-20200222125558-5a598a2470a0/go.mod h1:z5CRVTTTmAJ677TzLLGU+0bjPO0LkuOLi4/5GtJWs/s=
 golang.org/x/net v0.0.0-20200501053045-e0ff5e5a1de5 h1:WQ8q63x+f/zpC8Ac1s9wLElVoHhm32p6tudrU72n1QA=
 golang.org/x/net v0.0.0-20200501053045-e0ff5e5a1de5/go.mod h1:qpuaurCH72eLCgpAm/N6yyVIVM9cpaDIP3A8BGJEC5A=
+golang.org/x/net v0.0.0-20200505041828-1ed23360d12c h1:zJ0mtu4jCalhKg6Oaukv6iIkb+cOvDrajDH9DH46Q4M=
+golang.org/x/net v0.0.0-20200505041828-1ed23360d12c/go.mod h1:qpuaurCH72eLCgpAm/N6yyVIVM9cpaDIP3A8BGJEC5A=
 golang.org/x/oauth2 v0.0.0-20180724155351-3d292e4d0cdc h1:3ElrZeO6IBP+M8kgu5YFwRo92Gqr+zBg3aooYQ6ziqU=
 golang.org/x/oauth2 v0.0.0-20180724155351-3d292e4d0cdc/go.mod h1:N/0e6XlmueqKjAGxoOufVs8QHGRruUQn6yWY3a++T0U=
 golang.org/x/sync v0.0.0-20180314180146-1d60e4601c6f/go.mod h1:RxMgew5VJxzue5/jJTE5uejpjVlOe/izrB70Jof72aM=
