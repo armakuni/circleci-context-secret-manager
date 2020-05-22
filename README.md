@@ -50,6 +50,10 @@ The configuration for each yaml file should follow:
 | `extends`     | `[]string`          | No                               | N/A     | An array of context file names to extend, it will load all `secrets` from extended files in order and then override with any `secrets` defined locally                                               |
 | `secrets`     | `map[string]string` | No                               | N/A     | The secrets you wish to configure for your context, this will override anything imported via `extends`. **Note**: Leaving `secrets` blank will delete all secrets on an `apply`                      |
 
+#### Projects
+
+While this tools main focus remains on managing environment variables on a context you might find times where you need some configuration to be managed on projects, you can find a guide to using the tool with projects [here](/GUIDE.md#Projects)
+
 ### Getting started
 
 1. Create some contexts in CircleCI

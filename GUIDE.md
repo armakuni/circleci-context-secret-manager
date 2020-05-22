@@ -107,3 +107,49 @@ Context 'context2':
 ```
 
 This gives us a clear view for each context about what is new, what is still configured and what would be removed. If you have pipelines your context configuration then it would be recommended to run a `dry-run` before commiting to double check you are making the desired changes.
+
+## Projects
+
+Since creating this tool we have found some scenarios where managing environment variables on a context doesn't work. For example using them to access a private docker registery for an executor. In these scenarioes the best option is to configure you variables on a project.
+
+Just because the variables on configured at a project scope doesn't mean we can't still follow good practice.
+
+Example file:
+
+```yml
+extends:
+- artifactory.yml
+
+project_slug: github/myorg/myproject
+
+skip_deploy: false
+
+secrets:
+  COMMON_SECRET: secret
+```
+
+As you can see it follows a similar stucture to we had with contexts, just replacing `context_id` with `project_slug`.
+
+### Reference config structure
+
+```
+├── contexts
+│   ├── extensions
+│       ├── artifactory.yml
+│   ├── context1.yml
+│   ├── context2.yml
+├── projects
+│   ├── projects1.yml
+```
+
+As we would still consider contexts the "first class citizen" of the tool, we would recommend keeping your `extensions` together in one place.
+
+It is for this reason that project commands get an additional optional flag.
+
+```sh
+ccsm dry-run-projects --extensions contexts/extensions
+```
+
+Using this flag we can specify that we use the extensions from the contexts folder even when configuring projects to make sure we don't duplicate config.
+
+**Note**: If you specify the `extensions` flag you can still extend using files from within the `projects` repo, this means one project file can extend another as well as using the base extensions.
