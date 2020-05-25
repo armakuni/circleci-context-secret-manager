@@ -3,7 +3,7 @@ module github.com/armakuni/circleci-context-secret-manager
 go 1.13
 
 require (
-	github.com/CircleCI-Public/circleci-cli v0.1.7645
+	github.com/CircleCI-Public/circleci-cli v0.1.7868
 	github.com/armakuni/circleci-workflow-dashboard v0.0.0-20200506082955-decad96c20ed
 	github.com/onsi/ginkgo v1.12.2
 	github.com/onsi/gomega v1.10.1
