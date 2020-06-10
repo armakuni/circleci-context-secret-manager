@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/armakuni/circleci-context-secret-manager/manager"
 	"github.com/urfave/cli/v2"
 )
 
@@ -15,7 +16,11 @@ func applyCMD(c *cli.Context) error {
 	if err != nil {
 		return err
 	}
-	managerContexts = managerContexts.Process()
+	manager := &manager.Manager{}
+	managerContexts, err = manager.ProcessContexts(managerContexts)
+	if err != nil {
+		return err
+	}
 	contexts, err := getContexts(client, managerContexts)
 	if err != nil {
 		return err
@@ -43,7 +48,11 @@ func applyProjectCMD(c *cli.Context) error {
 	if err != nil {
 		return err
 	}
-	managerProjects = managerProjects.Process()
+	manager := &manager.Manager{}
+	managerProjects, err = manager.ProcessProjects(managerProjects)
+	if err != nil {
+		return err
+	}
 	projectsEnvVars, err := getProjects(client, managerProjects)
 	if err != nil {
 		return err

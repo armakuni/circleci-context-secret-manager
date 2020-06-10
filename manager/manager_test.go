@@ -8,6 +8,51 @@ import (
 )
 
 var _ = Describe("Contexts", func() {
+	Describe("HasAWSRemoteSecrets", func() {
+		Context("when remote secrets are not enabled", func() {
+			It("returns false", func() {
+				var contexts = manager.Contexts{
+					"main.yml": manager.Context{},
+				}
+				remoteSecretsEnabled, err := contexts.HasAWSRemoteSecrets()
+				Ω(remoteSecretsEnabled).Should(BeFalse())
+				Ω(err).Should(BeNil())
+			})
+		})
+
+		Context("when remote secrets are enbaled", func() {
+			Context("and the secret manager type is supported", func() {
+				It("returns true", func() {
+					var contexts = manager.Contexts{
+						"main.yml": manager.Context{
+							RemoteSecretStore: &manager.RemoteSecretStore{
+								Type: "aws-secret-manager",
+							},
+						},
+					}
+					remoteSecretsEnabled, err := contexts.HasAWSRemoteSecrets()
+					Ω(remoteSecretsEnabled).Should(BeTrue())
+					Ω(err).Should(BeNil())
+				})
+			})
+
+			Context("and the secret manager type is not supported", func() {
+				It("returns an error", func() {
+					var contexts = manager.Contexts{
+						"main.yml": manager.Context{
+							RemoteSecretStore: &manager.RemoteSecretStore{
+								Type: "not-implemented",
+							},
+						},
+					}
+					remoteSecretsEnabled, err := contexts.HasAWSRemoteSecrets()
+					Ω(remoteSecretsEnabled).Should(BeTrue())
+					Ω(err).Should(MatchError("Unsupported remote secret manager 'not-implemented', supported managers are"))
+				})
+			})
+		})
+	})
+
 	Describe("Process", func() {
 		Context("when nothing extends", func() {
 			var contexts = manager.Contexts{

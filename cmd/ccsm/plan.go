@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/armakuni/circleci-context-secret-manager/manager"
 	"github.com/urfave/cli/v2"
 	"gopkg.in/yaml.v2"
 )
@@ -16,7 +17,11 @@ func planCMD(c *cli.Context) error {
 	if err != nil {
 		return err
 	}
-	managerContexts = managerContexts.Process()
+	manager := &manager.Manager{}
+	managerContexts, err = manager.ProcessContexts(managerContexts)
+	if err != nil {
+		return err
+	}
 	if _, ok := managerContexts[context]; !ok {
 		return fmt.Errorf("Could not find a context file for %s", context)
 	}
@@ -33,7 +38,12 @@ func planProjectCMD(c *cli.Context) error {
 	if project == "" {
 		return fmt.Errorf("Must set a specific project for interpolation")
 	}
-	managerProjects, err := loadYAML(c)
+	managerProjects, err := loadYAMLProjects(c)
+	if err != nil {
+		return err
+	}
+	manager := &manager.Manager{}
+	managerProjects, err = manager.ProcessProjects(managerProjects)
 	if err != nil {
 		return err
 	}

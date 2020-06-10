@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/armakuni/circleci-context-secret-manager/manager"
 	"github.com/urfave/cli/v2"
 )
 
@@ -11,22 +12,27 @@ func dryRunCMD(c *cli.Context) error {
 	if err != nil {
 		return err
 	}
-	managerProjects, err := loadYAML(c)
+	managerContexts, err := loadYAML(c)
 	if err != nil {
 		return err
 	}
-	managerProjects = managerProjects.Process()
-	contexts, err := getContexts(client, managerProjects)
+	manager := &manager.Manager{}
+	managerContexts, err = manager.ProcessContexts(managerContexts)
 	if err != nil {
 		return err
 	}
-	err = validateContexts(contexts, managerProjects)
+	managerContexts = managerContexts.Process()
+	contexts, err := getContexts(client, managerContexts)
+	if err != nil {
+		return err
+	}
+	err = validateContexts(contexts, managerContexts)
 	if err != nil {
 		return err
 	}
 	for contextKey, context := range contexts {
 		fmt.Printf("\nContext '%s':\n", context.Name)
-		diffs := context.getChanges(managerProjects[contextKey])
+		diffs := context.getChanges(managerContexts[contextKey])
 		if len(diffs.New) > 0 {
 			fmt.Printf("  New secrets:\n")
 			for _, new := range diffs.New {
@@ -58,7 +64,11 @@ func dryRunProjectsCMD(c *cli.Context) error {
 	if err != nil {
 		return err
 	}
-	managerProjects = managerProjects.Process()
+	manager := &manager.Manager{}
+	managerProjects, err = manager.ProcessProjects(managerProjects)
+	if err != nil {
+		return err
+	}
 	projectsEnvVars, err := getProjects(client, managerProjects)
 	if err != nil {
 		return err
