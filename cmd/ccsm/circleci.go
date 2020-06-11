@@ -155,6 +155,9 @@ func getContexts(cl *client.Client, managerContexts manager.Contexts) (map[strin
 func getProjects(cl *circleci.Client, managerProjects manager.Projects) (map[string]circleci.ProjectEnvVars, error) {
 	projectEnvVars := make(map[string]circleci.ProjectEnvVars)
 	for contextKey, managerProject := range managerProjects {
+		if managerProject.ProjectSlug == "" {
+			continue
+		}
 		envVars, err := cl.GetProjectEnvVars(managerProject.ProjectSlug)
 		if err != nil {
 			return nil, err

@@ -31,6 +31,9 @@ func loadYAMLProjects(c *cli.Context) (manager.Projects, error) {
 func listFiles(contextsDir string) ([]string, error) {
 	var files []string
 	err := filepath.Walk(contextsDir, func(path string, info os.FileInfo, err error) error {
+		if info == nil {
+			return nil
+		}
 		if info.IsDir() {
 			return nil
 		}
