@@ -125,7 +125,7 @@ func (m *Manager) GetAWSSecret(name string) (string, error) {
 	}
 	result, err := m.AWSSecretManager.GetSecretValue(input)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("Could not get secret '%s' from aws secrets manager: %v", name, err)
 	}
 
 	var secretString string
