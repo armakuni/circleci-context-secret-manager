@@ -89,17 +89,6 @@ func main() {
 				},
 				Action: dryRunCMD,
 			}, {
-				Name:  "plan",
-				Usage: `Run a plan for a context file, see exactly what secrets will be set for your context on apply`,
-				Flags: []cli.Flag{
-					contextFlag,
-					&cli.StringFlag{
-						Name:  "context",
-						Usage: "The context you want to show output for (as the file name)",
-					},
-				},
-				Action: planCMD,
-			}, {
 				Name:  "dry-run-projects",
 				Usage: `Print out a dry run report for projects`,
 				UsageText: `
@@ -115,6 +104,29 @@ func main() {
 					extensionsFlag,
 				},
 				Action: dryRunProjectsCMD,
+			}, {
+				Name:  "plan",
+				Usage: `Run a plan for a context file, see exactly what secrets will be set for your context on apply`,
+				Flags: []cli.Flag{
+					contextFlag,
+					&cli.StringFlag{
+						Name:  "context",
+						Usage: "The context you want to show output for (as the file name)",
+					},
+				},
+				Action: planCMD,
+			}, {
+				Name:  "plan-project",
+				Usage: `Run a plan for a project file, see exactly what secrets will be set for your context on apply`,
+				Flags: []cli.Flag{
+					projectFlag,
+					extensionsFlag,
+					&cli.StringFlag{
+						Name:  "project",
+						Usage: "The project you want to show output for (as the file name)",
+					},
+				},
+				Action: planProjectCMD,
 			},
 		},
 	}

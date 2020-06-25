@@ -160,7 +160,7 @@ func getProjects(cl *circleci.Client, managerProjects manager.Projects) (map[str
 		}
 		envVars, err := cl.GetProjectEnvVars(managerProject.ProjectSlug)
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("Error getting project env vars for '%s': %v", managerProject.ProjectSlug, err)
 		}
 		projectEnvVars[contextKey] = envVars
 	}
