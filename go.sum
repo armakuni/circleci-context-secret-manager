@@ -86,6 +86,8 @@ github.com/aws/aws-sdk-go v1.34.3 h1:pkbLkV9Q/KY86rbV/WG+yzjNektJbjNRdsTNGtNDZcY
 github.com/aws/aws-sdk-go v1.34.3/go.mod h1:5zCpMtNQVjRREroY7sYe8lOMRSxkhG6MZveU8YkpAk0=
 github.com/aws/aws-sdk-go v1.34.4 h1:Yx49/+ZMCD9YqIVsO3CsiMs4hnUnokd9otKvWYFjnYw=
 github.com/aws/aws-sdk-go v1.34.4/go.mod h1:5zCpMtNQVjRREroY7sYe8lOMRSxkhG6MZveU8YkpAk0=
+github.com/aws/aws-sdk-go v1.34.5 h1:FwubVVX9u+kW9qDCjVzyWOdsL+W5wPq683wMk2R2GXk=
+github.com/aws/aws-sdk-go v1.34.5/go.mod h1:5zCpMtNQVjRREroY7sYe8lOMRSxkhG6MZveU8YkpAk0=
 github.com/blang/semver v3.5.1+incompatible h1:cQNTCjp13qL8KC3Nbxr/y2Bqb63oX6wdnnjpJbkM4JQ=
 github.com/blang/semver v3.5.1+incompatible/go.mod h1:kRBLl5iJ+tD4TcOOxsy/0fnwebNt5EWlYSAyrTnjyyk=
 github.com/briandowns/spinner v0.0.0-20181018151057-dd69c579ff20 h1:kWWOFAhyzkpi4/+L3++mYiZbuxh1TqYkDMHfFjk6ZfE=
