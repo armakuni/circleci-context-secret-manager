@@ -5,7 +5,7 @@ go 1.13
 require (
 	github.com/CircleCI-Public/circleci-cli v0.1.9066
 	github.com/armakuni/circleci-workflow-dashboard v0.0.0-20200506082955-decad96c20ed
-	github.com/aws/aws-sdk-go v1.34.33
+	github.com/aws/aws-sdk-go v1.34.34
 	github.com/onsi/ginkgo v1.14.1
 	github.com/onsi/gomega v1.10.2
 	github.com/pkg/errors v0.9.1
