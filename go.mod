@@ -7,7 +7,7 @@ require (
 	github.com/armakuni/circleci-workflow-dashboard v0.0.0-20200506082955-decad96c20ed
 	github.com/aws/aws-sdk-go v1.37.24
 	github.com/onsi/ginkgo v1.15.0
-	github.com/onsi/gomega v1.10.5
+	github.com/onsi/gomega v1.11.0
 	github.com/pkg/errors v0.9.1
 	github.com/urfave/cli/v2 v2.3.0
 	gopkg.in/yaml.v2 v2.4.0
