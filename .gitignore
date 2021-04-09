@@ -4,3 +4,4 @@ outputs
 *.coverprofile
 builds
 projects
+/.versio-paused

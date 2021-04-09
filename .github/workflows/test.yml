@@ -1,8 +1,8 @@
 on:
   schedule:
-    - cron:  '0 12 * * 1-5'
-  push: ~
-  pull_request: ~
+  - cron: 0 12 * * 1-5
+  push:
+  pull_request:
 name: Test
 jobs:
   test:
@@ -11,18 +11,39 @@ jobs:
         platform: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.platform }}
     steps:
-      - uses: actions/setup-go@v1
-        with:
-          go-version: 1.13.x
-      - uses: actions/checkout@v1
-      - run: go test ./...
+    - uses: actions/setup-go@v1
+      with:
+        go-version: 1.13.x
+    - uses: actions/checkout@v1
+    - run: go test ./...
 
   docker-build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@master
-      - run: |
-          TAG=1.0.ci
-          env GOOS=linux GARCH=amd64 CGO_ENABLED=0 go build ./cmd/ccsm
-          docker build -t armakuni/ccsm:$TAG .
+    - name: Checkout
+      uses: actions/checkout@master
+    - run: |
+        TAG=1.0.ci
+        env GOOS=linux GARCH=amd64 CGO_ENABLED=0 go build ./cmd/ccsm
+        docker build -t armakuni/ccsm:$TAG .
+  tag:
+    if: github.ref == 'refs/heads/main'
+    needs:
+      - version
+      - test
+      - lints
+      - check
+      - security-audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.3.4
+        with:
+          token: ${{ secrets.COMMITTER_TOKEN }}
+          fetch-depth: 0
+      - uses: chaaz/versio-actions/install@v1.1
+        name: Install versio
+      - name: Generate release
+        run: versio release
+        env:
+          GITHUB_TOKEN: ${{ secrets.COMMITTER_TOKEN }}
+          GITHUB_USER: ${{ github.actor }}

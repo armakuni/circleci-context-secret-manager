@@ -1,0 +1,73 @@
+name: Build GitHub Releases
+on:
+  push:
+    tags-ignore:
+    - versio-prev
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2.3.4
+      name: Checkout the repository
+      with:
+        lfs: true
+        fetch-depth: 0
+    - uses: actions/setup-go@v1
+      with:
+        go-version: 1.13.x
+    - run: ./scripts/build.sh
+    - id: get_previous_version
+      name: Calculate previous version
+      run: echo ::set-output name=PREVIOUS_VERSION::$(git tag | sort --version-sort
+        | tail -n 3 | head -n 1)
+      shell: bash
+    - id: get_repository_name
+      name: Calculate repository name
+      run: echo ::set-output name=REPOSITORY_NAME::$(echo "$GITHUB_REPOSITORY" | awk
+        -F / '{print $2}' | sed -e "s/:refs//")
+      shell: bash
+    - name: Get the version
+      id: get_version
+      run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+    - uses: dlavrenuek/conventional-changelog-action@v1.1.1
+      id: changelog
+      with:
+        from: ${{ steps.get_previous_version.outputs.PREVIOUS_VERSION }}
+        to: ${{ steps.get_version.outputs.VERSION }}
+    - env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      id: create_release
+      uses: actions/create-release@v1.1.4
+      with:
+        draft: false
+        prerelease: false
+        body: ${{ steps.changelog.outputs.body }}
+        release_name: Release ${{ steps.get_version.outputs.VERSION }}
+        tag_name: ${{ steps.get_version.outputs.VERSION }}
+    - uses: actions/upload-release-asset@v1.0.2
+      name: Upload linux-amd64 binaries to release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./builds/ccsm-linux-amd64
+        asset_name: ccsm-linux-amd64
+        asset_content_type: application/octet-stream
+    - uses: actions/upload-release-asset@v1.0.2
+      name: Upload windows-amd64 binaries to release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./builds/ccsm-windows-amd64
+        asset_name: ccsm-windows-amd64
+        asset_content_type: application/octet-stream
+    - uses: actions/upload-release-asset@v1.0.2
+      name: Upload darwin-amd64 binaries to release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./builds/ccsm-darwin-amd64
+        asset_name: ccsm-darwin-amd64
+        asset_content_type: application/octet-stream
