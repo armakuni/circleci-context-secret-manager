@@ -27,13 +27,10 @@ jobs:
         env GOOS=linux GARCH=amd64 CGO_ENABLED=0 go build ./cmd/ccsm
         docker build -t armakuni/ccsm:$TAG .
   tag:
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/master'
     needs:
-      - version
       - test
-      - lints
-      - check
-      - security-audit
+      - docker-build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2.3.4
