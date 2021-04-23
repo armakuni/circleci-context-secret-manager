@@ -28,6 +28,8 @@ jobs:
         docker build -t armakuni/ccsm:$TAG .
   tag:
     if: github.ref == 'refs/heads/master'
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     needs:
     - test
     - docker-build
