@@ -14,14 +14,14 @@ jobs:
     - uses: actions/setup-go@v2.1.3
       with:
         go-version: 1.13.x
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2.3.4
     - run: go test ./...
 
   docker-build:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@master
+      uses: actions/checkout@v2.3.4
     - run: |
         TAG=1.0.ci
         env GOOS=linux GARCH=amd64 CGO_ENABLED=0 go build ./cmd/ccsm
