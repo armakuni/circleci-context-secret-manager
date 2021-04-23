@@ -30,6 +30,7 @@ jobs:
     if: github.ref == 'refs/heads/master'
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_USER: ${{ github.actor }}
     needs:
     - test
     - docker-build
