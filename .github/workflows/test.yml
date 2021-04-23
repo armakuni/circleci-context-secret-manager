@@ -29,18 +29,70 @@ jobs:
   tag:
     if: github.ref == 'refs/heads/master'
     needs:
-      - test
-      - docker-build
+    - test
+    - docker-build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2.3.4
-        with:
-          token: ${{ secrets.COMMITTER_TOKEN }}
-          fetch-depth: 0
-      - uses: chaaz/versio-actions/install@v1.1
-        name: Install versio
-      - name: Generate release
-        run: versio release
-        env:
-          GITHUB_TOKEN: ${{ secrets.COMMITTER_TOKEN }}
-          GITHUB_USER: ${{ github.actor }}
+    - uses: actions/checkout@v2.3.4
+      with:
+        fetch-depth: 0
+    - uses: chaaz/versio-actions/install@v1.1
+      name: Install versio
+    - run: echo ::set-output "name=PREVIOUS_VERSION::$(  versio info -R -a -V | jq
+        -r .[0].version )"
+      id: get_previous_version
+    - run: echo ::set-output "name=BUMP::$( versio release --dry-run )"
+      id: get_versio_plan
+      name: Calculate next version
+    - name: Generate release
+      if: ${{ contains(steps.get_versio_plan.outputs.BUMP, ' -> ') }}
+      run: versio release
+    - if: ${{ contains(steps.get_versio_plan.outputs.BUMP, ' -> ') }}
+      uses: actions/setup-go@v2.1.3
+      with:
+        go-version: 1.13.x
+    - run: ./scripts/build.sh
+      if: ${{ contains(steps.get_versio_plan.outputs.BUMP, ' -> ') }}
+    - run: echo ::set-output "name=VERSION::$(  versio info -R -a -V | jq -r .[0].version
+        )"
+      if: ${{ contains(steps.get_versio_plan.outputs.BUMP, ' -> ') }}
+      id: get_version
+    - uses: dlavrenuek/conventional-changelog-action@v1.1.1
+      if: ${{ contains(steps.get_versio_plan.outputs.BUMP, ' -> ') }}
+      id: changelog
+      with:
+        from: v${{ steps.get_previous_version.outputs.PREVIOUS_VERSION }}
+        to: v${{ steps.get_version.outputs.VERSION }}
+    - id: create_release
+      if: ${{ contains(steps.get_versio_plan.outputs.BUMP, ' -> ') }}
+      uses: actions/create-release@v1.1.4
+      with:
+        draft: false
+        prerelease: false
+        body: ${{ steps.changelog.outputs.body }}
+        release_name: Release v${{ steps.get_version.outputs.VERSION }}
+        tag_name: v${{ steps.get_version.outputs.VERSION }}
+    - uses: actions/upload-release-asset@v1.0.2
+      if: ${{ contains(steps.get_versio_plan.outputs.BUMP, ' -> ') }}
+      name: Upload linux-amd64 binaries to release
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./builds/ccsm-linux-amd64
+        asset_name: ccsm-linux-amd64
+        asset_content_type: application/octet-stream
+    - uses: actions/upload-release-asset@v1.0.2
+      if: ${{ contains(steps.get_versio_plan.outputs.BUMP, ' -> ') }}
+      name: Upload windows-amd64 binaries to release
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./builds/ccsm-windows-amd64
+        asset_name: ccsm-windows-amd64.exe
+        asset_content_type: application/octet-stream
+    - uses: actions/upload-release-asset@v1.0.2
+      if: ${{ contains(steps.get_versio_plan.outputs.BUMP, ' -> ') }}
+      name: Upload darwin-amd64 binaries to release
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./builds/ccsm-darwin-amd64
+        asset_name: ccsm-darwin-amd64
+        asset_content_type: application/octet-stream
