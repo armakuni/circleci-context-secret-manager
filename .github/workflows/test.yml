@@ -60,7 +60,7 @@ jobs:
         )"
       if: ${{ contains(steps.get_versio_plan.outputs.BUMP, ' -> ') }}
       id: get_version
-    - uses: dlavrenuek/conventional-changelog-action@v1.1.1
+    - uses: dlavrenuek/conventional-changelog-action@v1.1.2
       if: ${{ contains(steps.get_versio_plan.outputs.BUMP, ' -> ') }}
       id: changelog
       with:
